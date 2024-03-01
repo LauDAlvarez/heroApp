@@ -16,21 +16,21 @@ export class AuthService{
         private http: HttpClient,
     ){}
     
-    get currentUser(): User|undefined{
+    get currentUser(): User | undefined{
         if(!this.user)return undefined;
         
         return structuredClone(this.user); 
     }
 
-    checkAuthentication(): Observable <Boolean>{
+    checkAuthentication(): Observable<boolean>{
         if( !localStorage.getItem('token')) return of(false);
 
         const token = localStorage.getItem("token");
         
-        return this.http.get<User> ( `${this.baseUrl}/users/1`)
+        return this.http.get<User>( `${this.baseUrl}/users/1`)
             .pipe(
                 tap( user => this.user = user),
-                map( user => !!user ),
+                map( user => (!!user) ),
                 catchError( (err) => of(false) )    
             );
 
